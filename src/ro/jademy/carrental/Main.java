@@ -20,6 +20,8 @@ public class Main {
 
 
         shop.showMenu();
-
+        System.out.println();
+        shop.showListMenuOptions();
+        shop.showBudgetSortMenu();
     }
 }

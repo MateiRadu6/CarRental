@@ -5,10 +5,8 @@ import ro.jademy.carrental.carlist.Dacia;
 import ro.jademy.carrental.cars.Car;
 import ro.jademy.carrental.cars.Engine;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
+
 
 import static ro.jademy.carrental.cars.TransmissionType.AUTOMATIC;
 import static ro.jademy.carrental.cars.TransmissionType.MANUAL;
@@ -17,7 +15,7 @@ import static ro.jademy.carrental.cars.CarBodyStyle.SEDAN;
 import static ro.jademy.carrental.cars.Color.*;
 import static ro.jademy.carrental.cars.EngineType.GASOLINE;
 
-//all methods
+
 public class Shop {
 
     Scanner scanner = new Scanner(System.in);
@@ -40,12 +38,16 @@ public class Shop {
             if (username.equals(salesman.getUsername()) && password.equals(salesman.getPassword())) {
                 System.out.print("You logged in");
                 System.out.println();
-                System.out.println("Welcome "+salesman.getFirstName()+" "+salesman.getLastName());
+                System.out.println("Welcome " + salesman.getFirstName() + " " + salesman.getLastName());
                 return true;
             }
         }
         System.out.print("Wrong pass/user. \nTry again.");
         System.out.println(" ");
+        return false;
+    }
+
+    public boolean login() {
         return false;
     }
 
@@ -59,12 +61,13 @@ public class Shop {
         System.out.println("1. List all cars");
         System.out.println("2. List available cars");
         System.out.println("3. List rented cars");
-        System.out.println("4. Check income");
-        System.out.println("5. Logout");
-        System.out.println("6. Exit");
+        System.out.println("4. Options");
+        System.out.println("5. Check income");
+        System.out.println("6. Logout");
+        System.out.println("7. Exit");
 
-        Scanner scan = new Scanner(System.in);
-        int option = scan.nextInt();
+        System.out.println("Please select an option : ");
+        int option = scanner.nextInt();
 
         switch (option) {
             case 1: {
@@ -72,23 +75,26 @@ public class Shop {
                 break;
             }
             case 2: {
-                //listAvailableCars();
+                showAvailableCars(carList);
                 break;
             }
             case 3: {
-                //listRentedCars();
+                showRentedCars(carList);
                 break;
             }
             case 4: {
-                //checkIncome();
+                showListMenuOptions();
+            }
+            case 5: {
+                checkIncome(carList);
             }
 
             case 7: {
-                // logout();
+                login();
                 break;
             }
             case 8: {
-                //shop.exit
+                System.exit(0);
                 break;
             }
         }
@@ -101,57 +107,58 @@ public class Shop {
         System.out.println("1. Filter by make");
         System.out.println("2. Filter by model");
         System.out.println("3. Filter by budget");
+        //System.out.println("4 Filter by specs");
         // TODO: add additional filter methods based on car specs
 
         System.out.println("4. Back to previous menu");
 
+        int option = scanner.nextInt();
+
+        switch (option) {
+            case 1: {
+                showCarsByMake(carList);
+                break;
+            }
+            case 2: {
+                showCarsByModel(carList);
+                break;
+            }
+            case 3: {
+                showBudgetSortMenu();
+                break;
+            }
+            case 4: {
+                checkIncome(carList);
+                break;
+            }
+        }
     }
 
-    private void showListCarsMenu() {
-        System.out.println("                    LIST CARS                   ");
-        System.out.println("1. List all cars");
-        System.out.println("2. List available cars");
-        System.out.println("3. List rented cars");
-        System.out.println("4. List service cars");
-        System.out.println("5. Main menu");
-    }
-
-    private void showSortMenu() {
-        System.out.println("\n                   SORT MENU                    ");
-        System.out.println("1. Make");
-        System.out.println("2. Body");
-        System.out.println("3. Budget");
-        System.out.println("4. Year");
-        System.out.println("5. Fuel");
-        System.out.println("6. Transmission");
+    public void showBudgetSortMenu() {
+        System.out.println("1. Price ascending");
+        System.out.println("2. Price descending");
         System.out.println("7. Back to previous menu\n");
-    }
 
-    private void showSortMake() {
-        System.out.println("\n                 SORT BY MAKE                  ");
-        System.out.println("1. Dacia");
-        System.out.println("2. Opel");
-        System.out.println("3. BMW");
-        System.out.println("4. Audi");
-        System.out.println("5. Mercedes");
-    }
+    int option = scanner.nextInt();
 
-    private void showSortModel() {
-        System.out.println("\n                SORT BY MODEL                   ");
-        System.out.println("1. Sedan");
-        System.out.println("2. Coupe");
-        System.out.println("3. Hatchback");
-        System.out.println("4. Convertible");
-        System.out.println("5. Wagon");
-        System.out.println("6. SUV");
+        switch (option) {
+        case 1: {
+            sortByPriceAscending();
+            break;
+        }
+        case 2: {
+            sortByPriceDescending();
+            break;
+        }
+        case 3: {
+            //showp revious menu
+            break;
+        }
     }
+}
 
-    private void showSortBudget() {
-        System.out.println("\n                SORT BY BUDGET                  ");
-        System.out.println("1. Less than 10000");
-        System.out.println("2. Between 10000 and 20000");
-        System.out.println("3. More than 20000");
-    }
+
+
 
     public void calculatePrice(int numberOfDays) {
         // TODO: apply a discount to the base price of a car based on the number of rental days
@@ -165,16 +172,17 @@ public class Shop {
 
     //ENGINES
 
-    Engine daciaEngine = new Engine(3, 1900, GASOLINE);
+    Engine daciaEngine1900 = new Engine(3, 1900, GASOLINE);
+    Engine daciaEngine1100 = new Engine(3, 1100, GASOLINE);
     Engine bentleyEngine = new Engine(12, 6000, GASOLINE);
 
     //CARS
 
-    Car daciaLogan1 = new Dacia("Dacia", "Logan", 2015, SEDAN, 4, PINK, MANUAL, daciaEngine, 100, false);
-    Car daciaLogan2 = new Dacia("Dacia", "Logan", 2015, SEDAN, 4, GRAY, MANUAL, daciaEngine, 100, false);
-    Car daciaLogan3 = new Dacia("Dacia", "Logan", 2016, SEDAN, 4, RED, MANUAL, daciaEngine, 100, false);
-    Car daciaLogan4 = new Dacia("Dacia", "Logan", 2016, SEDAN, 4, GREEN, MANUAL, daciaEngine, 100, true);
-    Car daciaLogan5 = new Dacia("Dacia", "Logan", 2015, SEDAN, 4, BLUE, MANUAL, daciaEngine, 100, false);
+    Car daciaLogan1 = new Dacia("Dacia", "Logan", 2015, SEDAN, 4, PINK, MANUAL, daciaEngine1900, 100, false);
+    Car daciaLogan2 = new Dacia("Dacia", "Logan", 2015, SEDAN, 4, GRAY, MANUAL, daciaEngine1100, 100, false);
+    Car daciaLogan3 = new Dacia("Dacia", "Logan", 2016, SEDAN, 4, RED, MANUAL, daciaEngine1100, 100, false);
+    Car daciaLogan4 = new Dacia("Dacia", "Logan", 2016, SEDAN, 4, GREEN, MANUAL, daciaEngine1900, 100, true);
+    Car daciaLogan5 = new Dacia("Dacia", "Logan", 2015, SEDAN, 4, BLUE, MANUAL, daciaEngine1900, 100, false);
 
     Car continentalGt1 = new Bentley("Bentley", "Continental GT", 2018, COUPE, 4, GRAY, AUTOMATIC, bentleyEngine, 350, false);
 
@@ -182,29 +190,93 @@ public class Shop {
 
 
     //Menu methods
-    
-    public void showAllCars(List<Car> cars){
+
+    public void showAllCars(List<Car> cars) {
 
         for (Car car : cars) {
-            System.out.print(car.getMake()+" "+car.getModel()+"     ");
-            System.out.print(car.getColor().toString());
-            System.out.println();
+            printCar(car);
         }
-        
+
     }
 
-    public void showAvailableCars(List<Car> cars){
+    public void showAvailableCars(List<Car> cars) {
 
         for (Car car : cars) {
-            if(car.isRented()) {
-                System.out.print(car.getMake() + " " + car.getModel() + "     ");
-                System.out.print(car.getColor().toString());
+            if (!car.isRented()) {
+                printCar(car);
+            }
+        }
+    }
+
+    public void showRentedCars(List<Car> cars) {
+        for (Car car : cars) {
+            if (car.isRented()) {
+                printCar(car);
+            }
+        }
+    }
+
+    public void showCarsByMake(List<Car> cars) {
+        System.out.println("Input make: ");
+        String inputMake = scanner.nextLine();
+        for (Car car : cars) {
+            if (car.getMake().equalsIgnoreCase(inputMake)) {
+                printCar(car);
+            }
+        }
+    }
+
+    public void showCarsByModel(List<Car> cars) {
+        System.out.println("Input model: ");
+        String inputMake = scanner.nextLine();
+        for (Car car : cars) {
+            if (car.getModel().equalsIgnoreCase(inputMake)) {
+                printCar(car);
                 System.out.println();
-            }else{
-                System.out.println("No available cars");
+            }
+        }
+    }
+
+    public void sortByPriceAscending(){
+        System.out.println("Enter min budget");
+        int budget = scanner.nextInt();
+        List<Car> filteredCars = new ArrayList<>();
+        for (Car car : filteredCars) {
+            if(car.getBasePrice() >= budget){
+                printCar(car);
+                System.out.println();
             }
         }
 
     }
 
-}
+    public void sortByPriceDescending(){
+        System.out.println("Enter max budget");
+        int budget = scanner.nextInt();
+        List<Car> filteredCars = new ArrayList<>();
+        for (Car car : filteredCars) {
+            if(car.getBasePrice() < budget){
+                printCar(car);
+            }
+        }
+    }
+
+    public int checkIncome(List<Car> cars){
+        int currentIncome = 0;
+        for (Car car : cars) {
+            if(car.isRented()){
+               currentIncome += car.getBasePrice();
+            }
+        }
+        System.out.println(currentIncome + " RON");
+        return currentIncome;
+    }
+
+    public void printCar(Car car) {
+        System.out.print(car.getMake() + " " + car.getModel() + " " + car.getYear() + "  " + car.getBasePrice() + "RON   " + car.getColor() + "   " + car.getDoorNumber() + " Doors" + "   " + car.getTransmissionType());
+        System.out.println();
+    }
+
+    }
+
+
