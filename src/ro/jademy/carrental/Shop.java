@@ -8,6 +8,7 @@ import ro.jademy.carrental.cars.Engine;
 import java.util.*;
 
 
+import static ro.jademy.carrental.cars.CarBodyStyle.SUV;
 import static ro.jademy.carrental.cars.TransmissionType.AUTOMATIC;
 import static ro.jademy.carrental.cars.TransmissionType.MANUAL;
 import static ro.jademy.carrental.cars.CarBodyStyle.COUPE;
@@ -70,38 +71,37 @@ public class Shop {
         int option = scanner.nextInt();
 
         switch (option) {
-            case 1: {
+            case 1:
                 showAllCars(carList);
                 break;
-            }
-            case 2: {
+            case 2:
                 showAvailableCars(carList);
                 break;
-            }
-            case 3: {
+
+            case 3:
                 showRentedCars(carList);
                 break;
-            }
-            case 4: {
-                showListMenuOptions();
-            }
-            case 5: {
+            case 4:
+                showOptionsMenu();
+                break;
+            case 5:
                 checkIncome(carList);
-            }
+            break;
 
             case 7: {
-                login();
+                //logout();
                 break;
             }
             case 8: {
-                System.exit(0);
+
                 break;
             }
         }
+        showMenu();
     }
 
 
-    public void showListMenuOptions() {
+    public void showOptionsMenu() {
 
         System.out.println("Select an action from below:");
         System.out.println("1. Filter by make");
@@ -110,7 +110,7 @@ public class Shop {
         //System.out.println("4 Filter by specs");
         // TODO: add additional filter methods based on car specs
 
-        System.out.println("4. Back to previous menu");
+        System.out.println("5. Back to previous menu");
 
         int option = scanner.nextInt();
 
@@ -127,48 +127,43 @@ public class Shop {
                 showBudgetSortMenu();
                 break;
             }
-            case 4: {
-                checkIncome(carList);
+            case 4:{
+                //showSpecsSortMenu
+            }
+            case 5: {
+                showMenu();
                 break;
             }
         }
     }
 
+    public void SpecsSortMenu(){
+        System.out.println("Filter by ");
+    }
+
     public void showBudgetSortMenu() {
         System.out.println("1. Price ascending");
         System.out.println("2. Price descending");
-        System.out.println("7. Back to previous menu\n");
+        System.out.println("3. Back to previous menu\n");
 
-    int option = scanner.nextInt();
+        int option = scanner.nextInt();
 
         switch (option) {
-        case 1: {
-            sortByPriceAscending();
-            break;
-        }
-        case 2: {
-            sortByPriceDescending();
-            break;
-        }
-        case 3: {
-            //showp revious menu
-            break;
+            case 1: {
+                sortByPriceByInputAscending();
+                break;
+            }
+            case 2: {
+                sortByPriceByInputDescending();
+                break;
+            }
+            case 3: {
+                showOptionsMenu();
+                break;
+            }
         }
     }
-}
 
-
-
-
-    public void calculatePrice(int numberOfDays) {
-        // TODO: apply a discount to the base price of a car based on the number of rental days
-        // TODO: document the implemented discount algorithm
-
-        // TODO: for a more difficult algorithm, change this method to include date intervals and take into account
-        //       weekdays and national holidays in which the discount should be smaller
-
-        // Q: what should be the return type of this method?
-    }
 
     //ENGINES
 
@@ -185,8 +180,9 @@ public class Shop {
     Car daciaLogan5 = new Dacia("Dacia", "Logan", 2015, SEDAN, 4, BLUE, MANUAL, daciaEngine1900, 100, false);
 
     Car continentalGt1 = new Bentley("Bentley", "Continental GT", 2018, COUPE, 4, GRAY, AUTOMATIC, bentleyEngine, 350, false);
+    Car bentayga1 = new Bentley("Bentley", "Bentayga ", 2018, SUV, 4, BLUE, AUTOMATIC, bentleyEngine, 350, true);
 
-    List<Car> carList = new ArrayList<>(Arrays.asList(daciaLogan1, daciaLogan2, daciaLogan3, daciaLogan4, daciaLogan5, continentalGt1));
+    List<Car> carList = new ArrayList<>(Arrays.asList(daciaLogan1, daciaLogan2, daciaLogan3, daciaLogan4, daciaLogan5, continentalGt1, bentayga1));
 
 
     //Menu methods
@@ -218,7 +214,7 @@ public class Shop {
 
     public void showCarsByMake(List<Car> cars) {
         System.out.println("Input make: ");
-        String inputMake = scanner.nextLine();
+        String inputMake = scanner.next();
         for (Car car : cars) {
             if (car.getMake().equalsIgnoreCase(inputMake)) {
                 printCar(car);
@@ -228,55 +224,66 @@ public class Shop {
 
     public void showCarsByModel(List<Car> cars) {
         System.out.println("Input model: ");
-        String inputMake = scanner.nextLine();
+        String inputMake = scanner.next();
         for (Car car : cars) {
             if (car.getModel().equalsIgnoreCase(inputMake)) {
                 printCar(car);
-                System.out.println();
             }
         }
     }
 
-    public void sortByPriceAscending(){
+    public void sortByPriceByInputAscending() {
         System.out.println("Enter min budget");
         int budget = scanner.nextInt();
         List<Car> filteredCars = new ArrayList<>();
         for (Car car : filteredCars) {
-            if(car.getBasePrice() >= budget){
+            if (car.getBasePrice() >= budget) {
                 printCar(car);
-                System.out.println();
             }
         }
 
     }
 
-    public void sortByPriceDescending(){
+    public void sortByPriceByInputDescending() {
         System.out.println("Enter max budget");
         int budget = scanner.nextInt();
         List<Car> filteredCars = new ArrayList<>();
         for (Car car : filteredCars) {
-            if(car.getBasePrice() < budget){
+            if (car.getBasePrice() < budget) {
                 printCar(car);
             }
         }
     }
 
-    public int checkIncome(List<Car> cars){
+
+
+    public int checkIncome(List<Car> cars) {
         int currentIncome = 0;
         for (Car car : cars) {
-            if(car.isRented()){
-               currentIncome += car.getBasePrice();
+            if (car.isRented()) {
+                currentIncome += car.getBasePrice();
             }
         }
         System.out.println(currentIncome + " RON");
         return currentIncome;
     }
 
+
+    public void calculatePrice(int numberOfDays) {
+        // TODO: apply a discount to the base price of a car based on the number of rental days
+        // TODO: document the implemented discount algorithm
+
+        // TODO: for a more difficult algorithm, change this method to include date intervals and take into account
+        //       weekdays and national holidays in which the discount should be smaller
+
+        // Q: what should be the return type of this method?
+    }
+
     public void printCar(Car car) {
-        System.out.print(car.getMake() + " " + car.getModel() + " " + car.getYear() + "  " + car.getBasePrice() + "RON   " + car.getColor() + "   " + car.getDoorNumber() + " Doors" + "   " + car.getTransmissionType());
+        System.out.print(car.getMake() + " " + car.getModel() + " " + car.getMakeYear() + "  " + car.getBasePrice() + "RON   " + car.getColor() + "   " + car.getDoorNumber() + " Doors" + "   " + car.getTransmissionType());
         System.out.println();
     }
 
-    }
+}
 
 

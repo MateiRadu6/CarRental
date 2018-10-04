@@ -4,35 +4,21 @@ public abstract class Car {
 
     private String make;
     private String model;
-    private Integer year;
-
-    // Q: how can we better represent the car type?
-    private CarBodyStyle carBodyStyle; // coupe, sedan, hatchback, convertible, wagon, SUV
-
-    // Q: how can we better represent the motor type?
-    // diesel, gasoline, alternative
-
+    private Integer makeYear;
+    private CarBodyStyle carBodyStyle;
     private Integer doorNumber;
-
     private Color color;
-
-    // Q: how can we better represent the transmission type?
-    private TransmissionType transmissionType; // automatic, manual
-
-    // Q: how can we better represent the engine?
+    private TransmissionType transmissionType;
     private Engine engine;
     private EngineType engineType;
-    // Q: how can we better represent money value?
     private int basePrice;
     private boolean isRented;
-    // Q: do we need a constructor other than the default one?
-    // Q: how can we better protect the car data?
 
 
     public Car(String make, String model, Integer year, CarBodyStyle carBodyStyle, Integer doorNumber, Color color, TransmissionType transmissionType, Engine engine, int basePrice, Boolean isRented) {
         this.make = make;
         this.model = model;
-        this.year = year;
+        this.makeYear = year;
         this.carBodyStyle = carBodyStyle;
         this.doorNumber = doorNumber;
         this.color = color;
@@ -58,12 +44,12 @@ public abstract class Car {
         this.model = model;
     }
 
-    public Integer getYear() {
-        return year;
+    public Integer getMakeYear() {
+        return makeYear;
     }
 
-    public void setYear(Integer year) {
-        this.year = year;
+    public void setMakeYear(Integer makeYear) {
+        this.makeYear = makeYear;
     }
 
     public CarBodyStyle getCarBodyStyle() {
