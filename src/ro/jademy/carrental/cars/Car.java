@@ -1,6 +1,6 @@
 package ro.jademy.carrental.cars;
 
-public abstract class Car {
+public abstract class Car implements Comparable<Car> {
 
     private String make;
     private String model;
@@ -112,5 +112,38 @@ public abstract class Car {
 
     public void setRented(boolean rented) {
         this.isRented = rented;
+    }
+
+    @Override
+    public int compareTo(Car o) {
+        int compareMake = make.compareTo(o.make);
+        int compareModel = doorNumber.compareTo(o.doorNumber);
+        int compareDoorNumber = doorNumber.compareTo(o.doorNumber);
+
+        if (compareMake !=0){
+            return compareMake;
+        }
+
+        if (compareModel !=0){
+            return compareModel;
+        }
+
+        if (compareDoorNumber != 0){
+            return compareDoorNumber;
+        }
+
+        return compareModel;
+//        if (compareMake == 0){
+//            compareMake = model.compareTo(o.model);
+//            return  compareMake;
+//        }
+//        if (compareModel == 0){
+//            compareModel = doorNumber.compareTo(o.doorNumber);
+//            return compareModel;
+//        }
+//        if (compareDoorNumber == 0){
+//            compareDoorNumber = doorNumber.compareTo(o.doorNumber);
+//            return compareDoorNumber;
+//        }
     }
 }

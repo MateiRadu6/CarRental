@@ -77,7 +77,6 @@ public class Shop {
             case 2:
                 showAvailableCars(carList);
                 break;
-
             case 3:
                 showRentedCars(carList);
                 break;
@@ -87,13 +86,12 @@ public class Shop {
             case 5:
                 checkIncome(carList);
             break;
-
-            case 7: {
+            case 6: {
                 //logout();
                 break;
             }
-            case 8: {
-
+            case 7: {
+                System.exit(0);
                 break;
             }
         }
@@ -185,18 +183,14 @@ public class Shop {
     List<Car> carList = new ArrayList<>(Arrays.asList(daciaLogan1, daciaLogan2, daciaLogan3, daciaLogan4, daciaLogan5, continentalGt1, bentayga1));
 
 
-    //Menu methods
 
     public void showAllCars(List<Car> cars) {
-
         for (Car car : cars) {
             printCar(car);
         }
-
     }
 
     public void showAvailableCars(List<Car> cars) {
-
         for (Car car : cars) {
             if (!car.isRented()) {
                 printCar(car);
@@ -241,7 +235,6 @@ public class Shop {
                 printCar(car);
             }
         }
-
     }
 
     public void sortByPriceByInputDescending() {
